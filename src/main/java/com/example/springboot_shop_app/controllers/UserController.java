@@ -1,5 +1,4 @@
 package com.example.springboot_shop_app.controllers;
-
 import com.example.springboot_shop_app.dto.UserDTO;
 import com.example.springboot_shop_app.dto.UserLoginDTO;
 import jakarta.validation.Valid;
@@ -10,7 +9,6 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import java.util.List;
 
 @Controller

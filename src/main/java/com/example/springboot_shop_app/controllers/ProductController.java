@@ -37,19 +37,21 @@ public class ProductController {
                         .toList();
                 return ResponseEntity.badRequest().body(errorMessages);
             }
-            MultipartFile file = productDTO.getFiles();
-            if (file.getSize() > 10 * 1024 * 1024) {  // Kích tước > 10MB
-                return ResponseEntity.status(HttpStatus.PAYLOAD_TOO_LARGE)
-                        .body("File í to large? Maximum size is 10MB");
+           List<MultipartFile> files = productDTO.getFiles();
+            for(MultipartFile file:files) {
+                if (file.getSize() > 10 * 1024 * 1024) {  // Kích tước > 10MB
+                    return ResponseEntity.status(HttpStatus.PAYLOAD_TOO_LARGE)
+                            .body("File í to large? Maximum size is 10MB");
+                }
+                String contentType = file.getContentType();
+                if (contentType == null
+                        || !contentType.startsWith("image/")) {
+                    return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
+                            .body("File must be an image");
+                }
+                // Luu file va cap nhat thumbnail trong DTO
+                String filename = storeFile(file);
             }
-            String contentType = file.getContentType();
-            if (contentType == null
-                    || !contentType.startsWith("image/")) {
-                return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
-                        .body("File must be an image");
-            }
-            // Luu file va cap nhat thumbnail trong DTO
-            String filename = storeFile(file);
             return ResponseEntity.ok("Product created succesfully ");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
