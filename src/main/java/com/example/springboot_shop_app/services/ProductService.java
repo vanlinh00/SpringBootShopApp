@@ -108,16 +108,16 @@ public class ProductService implements IProductService {
                 .findById(productImageDTO.getProductId())
                 .orElseThrow(() ->
                         new DataNotFoundException(
-                                "Cannot find product with id: "+productImageDTO.getProductId()));
+                                "Cannot find product with id: " + productImageDTO.getProductId()));
 
-        ProductImage newProductImage= ProductImage.builder()
+        ProductImage newProductImage = ProductImage.builder()
                 .product(existingProduct)
                 .imageUrl(productImageDTO.getImageUrl())
                 .build();
 
-    // ko cho insert qua 5 anh cho 1 san pham
-        int size=productImageRepository.findByProductId(productId).size();
-        if(size>=5){
+        // ko cho insert qua 5 anh cho 1 san pham
+        int size = productImageRepository.findByProductId(productId).size();
+        if (size >= 5) {
             throw new InvalidParameterException("Number of images must be <=5");
 
         }
