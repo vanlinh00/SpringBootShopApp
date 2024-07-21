@@ -14,6 +14,7 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class ProductDTO {
 
     //  private String id; // tu dong cap nhat

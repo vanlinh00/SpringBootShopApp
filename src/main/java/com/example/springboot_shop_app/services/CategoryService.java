@@ -33,7 +33,6 @@ public class CategoryService implements ICategoryService {
 
     }
 
-
     @Override
     public List<Category> getAllCategories() {
         return categoryRepository.findAll();

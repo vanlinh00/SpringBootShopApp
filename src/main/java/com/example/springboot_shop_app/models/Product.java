@@ -10,6 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @Entity
+@Table(name="products")
 public class Product extends BaseEntity {
 
     @Id

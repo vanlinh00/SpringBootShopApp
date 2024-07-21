@@ -9,6 +9,7 @@ import com.example.springboot_shop_app.models.ProductImage;
 import com.example.springboot_shop_app.repositories.CategoryRepository;
 import com.example.springboot_shop_app.repositories.ProductImageRepository;
 import com.example.springboot_shop_app.repositories.ProductRepository;
+import com.example.springboot_shop_app.responses.ProductResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -42,6 +43,7 @@ public class ProductService implements IProductService {
                 .name(productDTO.getName())
                 .price(productDTO.getPrice())
                 .thumbnail(productDTO.getThumbnail())
+                .description(productDTO.getDescription())
                 .category(exitstingCategory)
                 .build();
 
@@ -59,9 +61,12 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Page<Product> getAllProducts(PageRequest pageRequest) {
+    public Page<ProductResponse> getAllProducts(PageRequest pageRequest) {
         // lay danh sach san pham theo trang(Page) va gioi han(limit)
-        return productRepository.findAll(pageRequest);
+
+        return productRepository.findAll(pageRequest).map(
+                ProductResponse::fromProduct
+        );
     }
 
     @Override
@@ -110,7 +115,8 @@ public class ProductService implements IProductService {
                         new DataNotFoundException(
                                 "Cannot find product with id: " + productImageDTO.getProductId()));
 
-        ProductImage newProductImage = ProductImage.builder()
+        ProductImage newProductImage = ProductImage
+                .builder()
                 .product(existingProduct)
                 .imageUrl(productImageDTO.getImageUrl())
                 .build();
@@ -119,7 +125,6 @@ public class ProductService implements IProductService {
         int size = productImageRepository.findByProductId(productId).size();
         if (size >= 5) {
             throw new InvalidParameterException("Number of images must be <=5");
-
         }
         return productImageRepository.save(newProductImage);
     }
