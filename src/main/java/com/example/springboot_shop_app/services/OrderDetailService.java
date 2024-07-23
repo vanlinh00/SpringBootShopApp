@@ -12,7 +12,7 @@ import com.example.springboot_shop_app.repositories.OrderRepository;
 import com.example.springboot_shop_app.repositories.ProductRepository;
 import com.example.springboot_shop_app.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
