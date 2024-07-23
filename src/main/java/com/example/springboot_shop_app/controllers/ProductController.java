@@ -145,7 +145,6 @@ public class ProductController {
                         .build());
     }
 
-
     @GetMapping("/{id}")
     public ResponseEntity<?> getProductById(
             @PathVariable("id")
@@ -155,7 +154,6 @@ public class ProductController {
             Product existingProduct = productService.getProductById(productID);
             return ResponseEntity.ok(ProductResponse.fromProduct(existingProduct));
         } catch (Exception e) {
-
             return ResponseEntity.badRequest().body(e.getMessage());
         }
         //  return ResponseEntity.ok("Product with ID: " + productID);
@@ -167,7 +165,7 @@ public class ProductController {
     ) {
         try {
             productService.deleteProduct(id);
-            return ResponseEntity.ok(String.format("Product with id= %d deleted succesfully"));
+            return ResponseEntity.ok(String.format("Product with id= %d deleted succesfully", id));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

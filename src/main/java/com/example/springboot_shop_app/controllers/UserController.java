@@ -1,7 +1,12 @@
 package com.example.springboot_shop_app.controllers;
+
 import com.example.springboot_shop_app.dto.UserDTO;
 import com.example.springboot_shop_app.dto.UserLoginDTO;
+import com.example.springboot_shop_app.services.IUserService;
+import com.example.springboot_shop_app.services.UserSerivce;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.aspectj.weaver.patterns.IToken;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -9,11 +14,15 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 import java.util.List;
 
 @Controller
 @RequestMapping("api/v1/users")
+@RequiredArgsConstructor
 public class UserController {
+
+    private final UserSerivce userService;
 
     @PostMapping("/register")
     public ResponseEntity<?> createUser(
@@ -32,7 +41,10 @@ public class UserController {
             if (!userDTO.getPassword().equals(userDTO.getRetypePassword())) {
                 return ResponseEntity.badRequest().body("Password does not match");
             }
-            return ResponseEntity.ok("Register succesfully");
+
+            userService.createUser(userDTO);
+            return ResponseEntity.ok("Registers succesfully");
+            // return ResponseEntity.ok("Register succesfully");
 
         } catch (Exception e) {
 
@@ -47,7 +59,11 @@ public class UserController {
             @RequestBody UserLoginDTO userLoginDTO) {
         // kiem tra thoong tin dang nhap
         // Tra ve token cho reponse
-        return ResponseEntity.ok("Some Token");
+        String Token = userService.login(
+                userLoginDTO.getPhoneNumber()
+                , userLoginDTO.getPassword());
+        return ResponseEntity.ok(Token);
+        //  return ResponseEntity.ok("Some Token");
     }
 
 }

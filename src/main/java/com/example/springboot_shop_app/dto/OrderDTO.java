@@ -4,6 +4,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.time.LocalDate;
+
+@Setter
+@Getter
 
 public class OrderDTO {
 
@@ -29,12 +36,19 @@ public class OrderDTO {
     @Min(value=0,message="Total money must be >=0")
     private String totalMoney;
 
+
     @JsonProperty("shipping_method")
     private String shippingMethod;
 
     @JsonProperty("shipping_address")
     private String shippingAddress;
 
+
+    @JsonProperty("shipping_date")
+    private LocalDate shippingDate;
+
     @JsonProperty("payment_method")
     private String paymentMethod;
+
+
 }

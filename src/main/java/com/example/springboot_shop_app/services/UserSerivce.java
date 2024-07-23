@@ -14,8 +14,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserSerivce implements IUserService {
 
-    private UserRepository userRepository;
-    private RoleRepository roleRepository;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
     @Override
     public User createUser(UserDTO userDTO) throws DataNotFoundException {
